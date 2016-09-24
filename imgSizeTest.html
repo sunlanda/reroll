@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>imgSizeTest</title>
+    <script src="dist/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="dist/ajaxfileupload.js"></script>
+</head>
+<style>
+    .form {
+        padding: 20%;
+    }
+
+    .form .picList li {
+        list-style: none;
+        width: 80px;
+        margin: 15px 28px 0 0;
+        float: left;
+        position: relative;
+        text-align: center;
+    }
+
+    .form .picList li .ipt-file {
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .form .picList li img {
+        width: 80px;
+        height: 80px;
+        vertical-align: top;
+        border: none;
+    }
+</style>
+<body>
+<input type="hidden" name="" id="imgHidden">
+
+<div class="form">
+    <ul class="picList iosShowList">
+        <li>
+            <input type="file" id="file_1"  data-max="2048" class="ipt-file">
+            <img id="img_1" src="img/add.png">
+            <p>58*58</p>
+        </li>
+        <li>
+            <input type="file" id="file_2" data-size="750,1334,2048" data-max="2048" class="ipt-file">
+            <img id="img_2" src="img/add.png">
+            <p>750*1334</p>
+        </li>
+    </ul>
+</div>
+
+
+</body>
+<script>
+    (function ($) {
+//        console.log($("#imgHidden"))
+
+        var evt = {
+            /* 获取图片宽高 */
+            getImageSize: function (url, callback) {
+                var img = new Image();
+                img.src = url;
+                // 如果图片被缓存，则直接返回缓存数据
+                if (img.complete) {
+                    callback(img.width, img.height);
+                } else {
+                    // 完全加载完毕的事件
+                    img.onload = function () {
+                        callback(img.width, img.height);
+                    }
+                }
+
+            },
+            /*触发图片上传*/
+            fileChange: function (event) {
+                var _elementId = $(this).attr("id")
+                var url = "api/uploadimg.php";
+                var _hidden_transit  = document.createElement("input")
+                _hidden_transit.src="";
+                _hidden_transit.type="hidden";
+                _hidden_transit.id="imgHidden";
+                document.querySelector("body").appendChild(_hidden_transit)
+
+             /*   $.ajaxFileUpload({
+                    type: 'POST',
+                    // url:query_url.uploadimg,
+                    url: url,
+                    fileElementId: _elementId,
+                    dataType: 'json',
+                    secureuri: false,// 一般设置为false
+                    success: function (data) {*/
+
+                        console.log("success")
+                        var _acceptFile = "PNG|png";
+                        var data = {
+                            code: 0,
+                            result: "http://ww2.sinaimg.cn/large/7022b550jw1f7ectxe33ej20ku1120tm.jpg"
+                        };
+                        $("#imgHidden").attr("src", data.result)
+                        var imgSrc = $("#imgHidden").attr("src");
+
+                        if (data.code == 0 && data.result != "") {
+                            if(!$(event.target).attr("data-size")){
+                                alert("html中未定义data-size属性")
+                                return false;
+                            }
+                            var _data_size_attr = $(event.target).attr("data-size").split(',')||null;
+
+                            //将data-size值转换为数组  并定义为宽高大小
+                            var _wid = _data_size_attr[0]-0;
+                            var _hei = _data_size_attr[1]-0;
+                            var _size = _data_size_attr[2]-0;
+                            evt.getImageSize(imgSrc,function(w,h){
+                                console.log("data-type的宽是"+_wid)
+                                console.log("data-type的高是"+_hei)
+                                if (w == _wid&& h == _hei) {
+                                    $("#"+ _elementId).parent("li").find("img").attr("src",data.result);
+                                } else {
+                                    alert("图片尺寸必须是" + _wid + "*" + _hei);
+                                    return;
+                                }
+
+                            })
+
+                        } else {
+
+                        }
+                 /*   },
+                    error: function (data) {
+                        // console.log(data)
+                        // console.log("error")
+                        alert("上传失败");
+                    }
+                });
+*/
+
+            }
+        }
+
+        $(".form").on("change", "input[type='file']", evt.fileChange);
+
+
+        window.evt = evt;
+    })(jQuery);
+
+
+
+    /*1.定义html中input的data-size属性 为三个值 宽高大小 用逗号隔开
+    2.每当触发并成功请求到数据时使用document,create创建一个隐藏域   插入src获取他的宽高
+    3.将三个值分别比对 如果全等 则为真 不全等则return
+    4.可以封装成一个只需要引入js就可以检索所有data-size并委派事件区分内容和请求*/
+
+</script>
+</html>
