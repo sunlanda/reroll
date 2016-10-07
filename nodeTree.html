@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>nodeTree</title>
+    <script src="dist/jquery-2.1.4.js"></script>
+</head>
+<style>
+    a{
+        text-decoration: none;
+    }
+    ul{
+        list-style: none;
+    }
+    .treeNode li{
+        margin: 3px 0 3px -20px;
+    }
+    .treeIcon{
+        border: 1px solid #ccc;
+    }
+    .treeIconNo{
+        border: 1px solid #fff;
+    }
+</style>
+<body>
+<div id="nodeTree">
+    <ul class="treeNode">
+        <li>
+            <div class="treelist">
+                <a href="#"class="treeIcon">-</a>
+                <a href="#"class="">1点</a>
+            </div>
+            <ul class="treeNode">
+                <li>
+                    <div class="treeList">
+                        <a href="#"class="treeIcon">-</a>
+                        <a href="#"class="">1-2点</a>
+                    </div>
+                    <ul class="treeNode">
+                        <li>
+                            <div class="treeList">
+                                <a href="#"class="treeIcon">-</a>
+                                <a href="#"class="">1-2-1点</a>
+                            </div>
+                            <ul class="treeNode">
+                                <li>
+                                    <div class="treeList">
+                                        <a href="#"class="treeIconNo"></a>
+                                        <a href="#"class="">1-2-1-1点</a>
+                                    </div>
+                                    <ul></ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="treeList">
+                        <a href="#"class="treeIconNo">&nbsp;</a>
+                        <a href="#"class="">1-3点</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="treeList">
+                        <a href="#"class="treeIconNo">&nbsp;</a>
+                        <a href="#"class="">1-4点</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="treeList">
+                        <a href="#"class="treeIconNo">&nbsp;</a>
+                        <a href="#"class="">1-5点</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="treeList">
+                        <a href="#"class="treeIcon">+</a>
+                        <a href="#"class="">1-6点</a>
+                    </div>
+                    <ul class="treeNode">
+                        <li>
+                            <div class="treeList">
+                                <a href="#"class="treeIconNo">&nbsp;</a>
+                                <a href="#"class="">1-6-1点</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="treeList">
+                                <a href="#"class="treeIconNo">&nbsp;</a>
+                                <a href="#"class="">1-6-2点</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+</body>
+<script>
+
+   window.onload =function(){
+       //获取元素对比类型
+        function getTypeElement(es,type) {
+            var esLen = es.length,i=0,eArr=[],esl=null;
+            for(;i<esLen;i++){
+                esl=es[i];
+                if(esl.nodeName.replace("#","").toLocaleLowerCase()==type){
+                    eArr.push(esl)
+                }
+            }
+            return eArr;
+        };
+        //节点树
+        function treeMenuNav() {
+            //获取所有的a标签
+            var as = document.getElementsByTagName("a"),
+                    ai=0,
+                    al=as.length,
+                    ao=null;
+            //循环所有a 如果有对应class 则委派事件去toggle 状态
+            for(;ai<al;ai++){
+                ao=as[ai];
+                if(ao.className=="treeIcon"){
+                    ao.onclick =function () {
+                        var iconType = this.innerHTML,
+                                uls=getTypeElement(this.parentNode.parentNode.childNodes,"ul"),
+                                uli=0,
+                                ull=uls.length,
+                                dis ="block";
+                        if(iconType=="-"){
+                            this.innerHTML="+";
+                            dis="none";
+                        }else{
+                            this.innerHTML="-";
+                        }
+                        for(;uli<ull;uli++){
+                            uls[uli].style.display=dis;
+                        }
+
+                    }
+                }
+            }
+        };
+        treeMenuNav();
+   }
+
+
+</script>
+</html>
