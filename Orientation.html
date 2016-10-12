@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Orientation</title>
+    <style>
+    #div {
+        background-color: #ddd;
+    }
+    </style>
+    <script src="http://apps.bdimg.com/libs/jquery/1.7.1/jquery.js"></script>
+</head>
+
+<body>
+    <div id="content"></div>
+    <button id="btn_horizontal">竖屏模式</button>
+    <button id="btn_vertical">横屏模式</button>
+    <button id="btn_default">默认</button>
+</body>
+<script>
+var show = function() {
+    window.screen.lockOrientation = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
+    window.screen.unlockOrientation = screen.unlockOrientation || screen.mozUnLockOrientation || screen.msUnLockOrientation;
+    // 输出当前模式
+    $("#content").html("当前显示方向 " + screen.orientation.type + "</br>当前显示角度" + screen.orientation.angle)
+}
+$("#btn_horizontal").click(function() {
+    // 锁定屏幕为竖屏模式，不能设备如何旋转，屏幕都不会切换到横屏模式。
+    window.screen.lockOrientation("portrait-primary");
+});
+$("#btn_vertical").click(function() {
+    // 锁定屏幕为横屏模式，无能设备如何旋转，屏幕都不会切换到竖屏模式。
+    window.screen.lockOrientation("landscape-primary");
+});
+$("#btn_default").click(function() {
+    // 取消屏幕的锁屏，屏幕回到原始状态，
+    window.screen.unlockOrientation();
+});
+
+screen.orientation.addEventListener("change", show);
+window.onload = show;
+</script>
+
+</html>
