@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>loop</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.7.1/jquery.js"></script>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            font:16px/150% 'Microsoft yahei';
+        }
+        ul,li{
+            list-style:none;
+        }
+    </style>
+</head>
+<body>
+<div id="boc">console</div>
+
+</body>
+<script>
+    //3.1实现数字的平方
+    function sqr(baseNum,loop){
+        var result =1;
+      for(var i=0; i<loop; i++){
+          result*=baseNum;
+
+      }
+      return result;
+    }
+//    console.log(sqr(3,10))
+
+    //3.2全局变量和局部变量
+    var x = "outside"
+
+    function fn (){
+        var x ="inside"
+//        console.log(x)
+    }
+    fn();
+//    console.log(x)
+    //3.3嵌套作用域
+
+    var landscape =function () {
+        var  result =""
+        var flat =function (size) {
+            for(var i=0;i<size;i++){
+                result+="_"
+            }
+        }
+        var mountain =function (size) {
+            result+="/"
+            for(var i=0;i<size;i++){
+                result+="'"
+            }
+            result+="\\"
+        }
+        flat(3)
+        mountain(4)
+        flat(6)
+        mountain(1)
+        flat(1)
+        return result;
+
+    }
+//    console.log(landscape())
+
+    //3.4函数和函数值
+//    var a =1;
+    var launchMissiles = function (value) {
+//        missileSystem.launch("now")
+//        console.log(1)
+        if(a =1){
+            launchMissiles =function (value) {
+//                console.log(2)
+            }
+        }
+    }
+    launchMissiles();
+
+
+    //3.6 调用栈  讲解一个函数调用的顺序 当函数被调用时执行顺序会跳转到函数提内 执行函数体内的操作  执行完毕后跳转到函数调用的位置的尾部 做下一行执行 (计算机在此期间会记录函数调用的上下文  上下文中的函数 变量 参数等都会被记录下来 等函数执行完毕后 系统会删除存储在栈顶的上下文信息)
+    function greet(who) {
+//        console.log("hello:"+who)
+    }
+    greet("jam")
+//    console.log("bye")
+    //3.7 可选参数 js对传入的参数数量不做限制  如果多传递默认被忽略(形参小于实参) 如果少传递遗漏的参数会默认undefined(实参小于形参)
+//    console.log(1,2,3)
+    function power(base,exponent) {
+        if(exponent==undefined){
+            exponent=2;
+            var result = 1;
+            for(var i=0;i<exponent;i++){
+                result*=base;
+                //return 写在循环内 就只执行了一次
+            }
+            //return 写在循环外 就是取循环中最大值
+            return result;
+
+
+        }
+    }
+    console.log(power(4))
+
+    //3.8 闭包 引用特定的局部变量实例的功能就是闭包 使用闭包不用再担心变量的声明问题
+    function warpValue(n) {
+        var localValue =n;
+        return function () {
+            return localValue;
+        }
+    }
+    var wrap1 =warpValue(1)
+    var wrap2 =warpValue(2)
+//    console.log(wrap2())
+    //闭包升级版
+    var multiplier =function(factor) {
+        return  function (number) {
+            return number*factor;
+        }
+    }
+    var twice = multiplier(2)
+    console.log(twice(5))
+    //3.9 递归
+    function power_2(base ,exponent){
+        if(exponent==0){
+            return 1;
+//            return 0;   //exponent作为是否循环的index 在最后一次调用该函数时  return exponent为1 就不改变计算结果
+        }else if(exponent==undefined){
+            return 2;
+        }
+        else{
+            return base*power_2(base,exponent-1)
+        }
+    }
+    console.log(power_2(2,3))
+
+    //几步能得到13 小游戏
+
+    function findSolution(target) {
+        function find(start,history) {
+            if(start==target){
+                return history
+            }
+            else if(start>target){
+                return null;
+            }
+            else{
+                return find(start+5,"("+history+"+5)")||find(start*3,"("+history+"*3)");
+            }
+        }
+        return find(1,"1");
+    }
+    console.log(findSolution())
+
+</script>
+</html>
+
+
+
+
+
+
