@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>promise</title>
+    <script src="./dist/jquery-2.1.4.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+<div id="box">
+    <h1>promise</h1>
+</div>
+</div>
+<script>
+    //promise 特点
+    //1.有三种状态 pending进行中  resolved已完成 rejected已失败
+    //2.缺点:无法中途取消promise 一旦新建就立刻执行/如果不设置回调函数 promise内部抛出的错误是不会反映到外部的/当处于pending状态无法得知目前进展到哪一个阶段
+    //3.promise 是一个构造函数 里面有 all reject resolve等方法 原型上有then  catch 等方法
+    //promise 实例生成后 可以用then方法指定resolved状态和reject状态的返回函数
+
+
+    /*var promise=new Promise(function (resolve,reject) {
+        if($("#box").length){
+            resolve(value)
+        }
+        else{
+            reject(error)
+        }
+    });
+    promise.then(function (value) {
+        //success
+        console.log("success:"+value)
+    },function (value) {
+        //fail
+        console.log("fail:"+value)
+
+    })*/
+
+//    console.dir(Promise)
+
+
+
+
+
+  /*  function runAsync() {
+        var p =new Promise(function (resolve,reject) {
+            setTimeout(function () {
+                console.log("success")
+                resolve("随便什么")
+            },2000)
+        });
+        return p;
+    }
+//    runAsync();
+    runAsync().then(function (data) {
+        console.log(data)
+    })*/
+
+
+    var promise =new Promise(function (resolve,reject) {
+        console.log("success")
+        resolve();
+    })
+    promise.then(function (data) {
+        console.log("11")
+    }).then(function (data) {
+        console.log("22")
+    }).then(function (data) {
+        console.log("33")
+    })
+
+</script>
+
+
+
+
+</body>
+</html>
