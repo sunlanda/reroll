@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>promise</title>
+    <script src="./dist/jquery-2.1.4.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+<div id="box">
+    <h1>require</h1>
+</div>
+</div>
+<script>
+   /* //1  声明一个函数 定义了数组
+    //name为保留字 声明names
+var names =["sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    function dataName(num){
+        return names[num]
+    }
+    document.write(dataName(1))*/
+
+
+
+    /*//2.声明一个函数
+    var day =function () {
+        var names =["sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+        return function (number) {
+            return names[number]
+        }
+    }()
+
+   console.log(day(2))
+    document.write(day(3))*/
+
+    /*//3.立即执行函数
+   (function(){
+
+       function square(x) {
+           return x*x;
+       }
+       console.log(square(6))
+   })();*/
+
+
+   /* //4.使用对象做接口
+    var weekday =function () {
+        var names =["sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+        return {
+            name:function (number) {
+                return names[number]
+            },
+            number:function (name) {
+                return names.indexOf(name)
+            }
+        }
+    }();
+
+   console.log(weekday.name(3))*/
+
+
+</script>
+
+
+
+
+</body>
+</html>
